@@ -12,6 +12,8 @@ class GetHandler(BaseHTTPRequestHandler):
             self.handle_main()
         elif parsed_path.path == '/teams':
             self.handle_team_request(parsed_path.query)
+        else:
+            self.handle_not_found()
 
     # handling path "/"
     def handle_main(self):
@@ -20,7 +22,7 @@ class GetHandler(BaseHTTPRequestHandler):
         x = football.get_club_selection("id", "teams")
         self.wfile.write(x.encode())
     
-    # handle path /teams and /teams?={id}
+    # handle path /teams and /teams?{id}
     def handle_team_request(self, query):
         query = parse_query(query)
         if 'id' in query.keys():
@@ -32,9 +34,40 @@ class GetHandler(BaseHTTPRequestHandler):
         elif not query:
             self.send_response(200)
             self.end_headers() 
-            self.wfile.write(football.get_club_list().encode())
-        
+            x = football.get_club_list()
+            self.wfile.write(x.encode())
+        else:
+            self.handle_not_found()
+
+    # handle path /competition?{id} or name
+    def handle_competition_request(self, query):
+        query = parse_query(query)
+        if 'id' in query.keys():
+            id = query['id']
+            self.send_response(200)
+            self.end_headers() 
+            # x = football.get_club_list()
+            self.wfile.write(("Looking for competition " + id).encode())
+        else:
+            self.handle_not_found()
+
+    # handle path /player=?{id} or name
+    def handle_player_request(self, query):
+        query = parse_query(query)
+        if 'id' in query.keys():
+            id = query['id']
+            self.send_response(200)
+            self.end_headers() 
+            # x = football.get_club_list()
+            self.wfile.write(("Looking for player" + id).encode())
+        else:
+            self.handle_not_found()
     
+    def handle_not_found(self):
+        self.send_response(404)
+        self.end_headers()
+        self.wfile.write("<h1>Page not found</h1>".encode())
+
 if __name__ == '__main__':
     server = HTTPServer(('localhost', 8080), GetHandler)
     print('Starting server, use <Ctrl-C> to stop')

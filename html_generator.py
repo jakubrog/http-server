@@ -28,8 +28,3 @@ class Generator():
             self.result += '\t<option value=' + dict[key] + ">" + key + "</option>\n"
         self.result += '</select>\n<input type="submit" value="Submit"/>\n'
         self.result += '</form>'
-
-
-x = Generator("x")
-x.add_list(["hello", "world"])
-print(x.get_HTML())
