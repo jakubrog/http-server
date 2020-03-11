@@ -5,13 +5,17 @@ from query_parser import parse_query
 import football
 import html_generator
 
-class GetHandler(BaseHTTPRequestHandler):
+class ServerHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         parsed_path = urlparse(self.path)
         if parsed_path.path == '/':
             self.handle_main()
         elif parsed_path.path == '/teams':
             self.handle_team_request(parsed_path.query)
+        elif parsed_path.path == '/competitions':
+            self.handle_competition_request(parsed_path.query)
+        elif parsed_path.path == '/players':
+            self.handle_player_request(parsed_path.query)
         else:
             self.handle_not_found()
 
@@ -58,8 +62,8 @@ class GetHandler(BaseHTTPRequestHandler):
             id = query['id']
             self.send_response(200)
             self.end_headers() 
-            # x = football.get_club_list()
-            self.wfile.write(("Looking for player" + id).encode())
+            x = football.get_player_info(id)
+            self.wfile.write(x.encode())
         else:
             self.handle_not_found()
     
@@ -69,6 +73,6 @@ class GetHandler(BaseHTTPRequestHandler):
         self.wfile.write("<h1>Page not found</h1>".encode())
 
 if __name__ == '__main__':
-    server = HTTPServer(('localhost', 8080), GetHandler)
+    server = HTTPServer(('localhost', 8080), ServerHandler)
     print('Starting server, use <Ctrl-C> to stop')
     server.serve_forever()

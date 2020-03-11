@@ -25,11 +25,11 @@ def get_club_list(title='Club List'):
     html = html_generator.Generator(title)
     connection.request('GET', '/v2/teams', None, headers )
     response = json.loads(connection.getresponse().read().decode())
-    result = []
+    result = {}
     for i in response['teams']:
         if i['name'] != None:
-            result.append(i['name'] + ' : ' + str(i['id']))
-    html.add_header('Avaiavble clubs')
+            result[i['name']] = 'http://localhost:8080/teams?id=' + str(i['id'])
+    html.add_header('Avaiavble clubs with their ID')
     html.add_list(result)
     return html.get_HTML()
 
@@ -45,10 +45,11 @@ def get_club_info(team_id):
     html.add_list(competitions)
 
     html.add_header("Squad:")
-    squad = []
+    squad = {}
     for i in response['squad']:
-        squad.append(i['name'])
-    html.add_list(squad)
+        squad[i['name']] = 'http://localhost:8080/players?id=' + str(i['id'])
+
+    html.add_clickable_list(squad)
     
     return html.get_HTML()
 
@@ -63,7 +64,7 @@ def get_current_competitions():
             result.append(i['name'] + " : " +  i['currentSeason']['endDate'] + ' - ' + i['currentSeason']['endDate'])
     return result
 
-# get nb of win, loose and draw matches, homa and away
+# get nb of win, loose and draw matches, home and away
 def get_WLD_stats(team_id, html=html_generator.Generator("WLD")):
     connection.request('GET', '/v2/teams/' + str(team_id) + "/matches", None, headers)
     response = json.loads(connection.getresponse().read().decode())
@@ -92,18 +93,28 @@ def get_WLD_stats(team_id, html=html_generator.Generator("WLD")):
     result.append("Away Winner : " + str(away_winner))
     result.append("Away Draw : " + str(away_draw))
     result.append("Away Looser : " + str(away_looser))
-
     html.add_header("WLD stats")
     html.add_list(result)
-
     return html.get_HTML()
 
-# get player name, birthday, country and nb of matches
 def get_player_info(player_id):
     connection.request('GET', '/v2/players/' + str(player_id), None, headers)
     player = json.loads(connection.getresponse().read().decode())
-
     connection.request('GET', '/v2/players/' + str(player_id) + "/matches", None, headers)
     player_matches = json.loads(connection.getresponse().read().decode())
     print(player_matches['count'])
-    
+    html = html_generator.Generator(player['name'])
+    html.add_header(player['name'])
+    html.add_header("Birth: " + player['dateOfBirth'], 4)
+    html.add_header("Nationality: " + player['nationality'], 4)
+    html.add_header("Position: " + player['position'], 4)
+    html.add_header("Played matches: " + str(player_matches['count']), 4)
+    html.add_header(str(player_matches), 4)
+    return html.get_HTML()
+
+# TODO: this whole function
+def get_competition_info(competition_id):
+    connection.request('GET', '/v2/competitions/' + str(competition_id), None, headers)
+    competition = json.loads(connection.getresponse().read().decode())
+    html = html_generator.Generator()
+    return html.get_HTML()
