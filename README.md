@@ -1,7 +1,6 @@
-# Simple Web
-
 ### Running a server
 Before running server make sure you have provided API key for https://www.football-data.org/, paste your private API key into football_data.py
+
 To run a server all you need to do is run following command:
 ```
 python3 server.py
