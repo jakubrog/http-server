@@ -4,7 +4,7 @@ from datetime import datetime
 import html_generator
 
 connection = http.client.HTTPConnection('api.football-data.org')
-headers = { 'X-Auth-Token': '531e6778b6594ef4bbe09a753d6c2b52' }
+headers = { 'X-Auth-Token': 'PASTE_YOUR_API_HERE' }
 domain_name = 'http://localhost:8080/'
 
 def set_domain_name(name):
@@ -34,8 +34,8 @@ def get_club_list(title='Club List'):
     for i in response['teams']:
         if i['name'] != None:
             result[i['name']] = domain_name + 'teams?id=' + str(i['id'])
-    html.add_header('Avaiavble clubs with their ID')
-    html.add_list(result)
+    html.add_header('Available clubs')
+    html.add_clickable_list(result)
     return html.get_HTML()
 
 def get_club_info(team_id):
@@ -113,7 +113,6 @@ def get_player_info(player_id):
     html.add_header("Played matches: " + str(player_matches['count']), 4)
     return html.get_HTML()
 
-# this function doenst work properly because of free API
 def get_competition_info(competition_id):
     connection.request('GET', '/v2/competitions/' + str(competition_id), None, headers)
     competition = json.loads(connection.getresponse().read().decode())
