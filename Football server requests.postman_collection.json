@@ -1,0 +1,336 @@
+{
+	"info": {
+		"_postman_id": "366c4698-7dd0-45f5-bd30-1b93f1d76dad",
+		"name": "Football requests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "api.football-data.org/v2/teams",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "key",
+							"value": "X-Auth-Token",
+							"type": "string"
+						},
+						{
+							"key": "value",
+							"value": "531e6778b6594ef4bbe09a753d6c2b52",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "api.football-data.org/v2/teams/100",
+					"host": [
+						"api",
+						"football-data",
+						"org"
+					],
+					"path": [
+						"v2",
+						"teams",
+						"100"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api.football-data.org/v2/competitions",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "key",
+							"value": "X-Auth-Token",
+							"type": "string"
+						},
+						{
+							"key": "value",
+							"value": "531e6778b6594ef4bbe09a753d6c2b52",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "api.football-data.org/v2/competitions",
+					"host": [
+						"api",
+						"football-data",
+						"org"
+					],
+					"path": [
+						"v2",
+						"competitions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api.football-data.org/v2/competitions/2021",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "key",
+							"value": "X-Auth-Token",
+							"type": "string"
+						},
+						{
+							"key": "value",
+							"value": "531e6778b6594ef4bbe09a753d6c2b52",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "api.football-data.org/v2/competitions/2021",
+					"host": [
+						"api",
+						"football-data",
+						"org"
+					],
+					"path": [
+						"v2",
+						"competitions",
+						"2021"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api.football-data.org/v2/teams/100",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "key",
+							"value": "X-Auth-Token",
+							"type": "string"
+						},
+						{
+							"key": "value",
+							"value": "531e6778b6594ef4bbe09a753d6c2b52",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "api.football-data.org/v2/teams/100",
+					"host": [
+						"api",
+						"football-data",
+						"org"
+					],
+					"path": [
+						"v2",
+						"teams",
+						"100"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api.football-data.org/v2/players/100",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "key",
+							"value": "X-Auth-Token",
+							"type": "string"
+						},
+						{
+							"key": "value",
+							"value": "531e6778b6594ef4bbe09a753d6c2b52",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "api.football-data.org/v2/players/100",
+					"host": [
+						"api",
+						"football-data",
+						"org"
+					],
+					"path": [
+						"v2",
+						"players",
+						"100"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api.football-data.org/v2/players/100/matches",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "key",
+							"value": "X-Auth-Token",
+							"type": "string"
+						},
+						{
+							"key": "value",
+							"value": "531e6778b6594ef4bbe09a753d6c2b52",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "api.football-data.org/v2/players/100/matches",
+					"host": [
+						"api",
+						"football-data",
+						"org"
+					],
+					"path": [
+						"v2",
+						"players",
+						"100",
+						"matches"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api.football-data.org/v2/competitions/2021/matches",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "key",
+							"value": "X-Auth-Token",
+							"type": "string"
+						},
+						{
+							"key": "value",
+							"value": "531e6778b6594ef4bbe09a753d6c2b52",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "api.football-data.org/v2/competitions/2021/matches",
+					"host": [
+						"api",
+						"football-data",
+						"org"
+					],
+					"path": [
+						"v2",
+						"competitions",
+						"2021",
+						"matches"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api.football-data.org/v2/areas/2072",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "key",
+							"value": "X-Auth-Token",
+							"type": "string"
+						},
+						{
+							"key": "value",
+							"value": "531e6778b6594ef4bbe09a753d6c2b52",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "api.football-data.org/v2/areas/2072",
+					"host": [
+						"api",
+						"football-data",
+						"org"
+					],
+					"path": [
+						"v2",
+						"areas",
+						"2072"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api.football-data.org/v2/teams/100/matches",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "key",
+							"value": "X-Auth-Token",
+							"type": "string"
+						},
+						{
+							"key": "value",
+							"value": "531e6778b6594ef4bbe09a753d6c2b52",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "api.football-data.org/v2/teams/100/matches",
+					"host": [
+						"api",
+						"football-data",
+						"org"
+					],
+					"path": [
+						"v2",
+						"teams",
+						"100",
+						"matches"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
