@@ -5,6 +5,11 @@ import html_generator
 
 connection = http.client.HTTPConnection('api.football-data.org')
 headers = { 'X-Auth-Token': '531e6778b6594ef4bbe09a753d6c2b52' }
+domain_name = 'http://localhost:8080/'
+
+def set_domain_name(name):
+    global domain_name
+    domain_name = name
 
 def get_club_selection(query_name, action, title="Club selection"):
     html = html_generator.Generator(title)
@@ -17,7 +22,7 @@ def get_club_selection(query_name, action, title="Club selection"):
             result[i['name']] = str(i['id'])
     html.add_select_from_list(query_name, action, result)
     html.add_header("Active competitions")
-    html.add_list(get_current_competitions())
+    get_current_competitions(html)
 
     return html.get_HTML()
 
@@ -28,7 +33,7 @@ def get_club_list(title='Club List'):
     result = {}
     for i in response['teams']:
         if i['name'] != None:
-            result[i['name']] = 'http://localhost:8080/teams?id=' + str(i['id'])
+            result[i['name']] = domain_name + 'teams?id=' + str(i['id'])
     html.add_header('Avaiavble clubs with their ID')
     html.add_list(result)
     return html.get_HTML()
@@ -38,31 +43,30 @@ def get_club_info(team_id):
     response = json.loads(connection.getresponse().read().decode())
     html = html_generator.Generator(response['name'])
     get_WLD_stats(team_id, html)
-    competitions = []
+    competitions = {}
     html.add_header("Active competitions:")
     for i in response['activeCompetitions']:
-        competitions.append(i['name'])
-    html.add_list(competitions)
+        competitions[i['name']] = domain_name + 'competitions?id=' + str(i['id'])
+    html.add_clickable_list(competitions)
 
     html.add_header("Squad:")
     squad = {}
     for i in response['squad']:
-        squad[i['name']] = 'http://localhost:8080/players?id=' + str(i['id'])
+        squad[i['name']] = domain_name + 'players?id=' + str(i['id'])
 
     html.add_clickable_list(squad)
     
     return html.get_HTML()
 
-    
-def get_current_competitions():
+def get_current_competitions(html=html_generator.Generator("Active competitions")):
     connection.request('GET', '/v2/competitions', None, headers )
     response = json.loads(connection.getresponse().read().decode())
-    html = html_generator.Generator("Active competitions")
-    result = []
+    result = {}
     for i in response['competitions']:
         if i['currentSeason'] != None and datetime.strptime(i['currentSeason']['endDate'], '%Y-%m-%d') > datetime.today():
-            result.append(i['name'] + " : " +  i['currentSeason']['endDate'] + ' - ' + i['currentSeason']['endDate'])
-    return result
+            result[i['name']] = domain_name + 'competitions?id=' + str(i['id'])
+    html.add_clickable_list(result)
+    return html.get_HTML()
 
 # get nb of win, loose and draw matches, home and away
 def get_WLD_stats(team_id, html=html_generator.Generator("WLD")):
@@ -86,7 +90,6 @@ def get_WLD_stats(team_id, html=html_generator.Generator("WLD")):
             elif i['score']['winner'] == 'DRAW':
                 away_draw += 1
     result = []
-
     result.append("Home Winner : " + str(home_winner))
     result.append("Home Draw : " + str(home_draw))
     result.append("Home Looser : " + str(home_looser))
@@ -102,19 +105,27 @@ def get_player_info(player_id):
     player = json.loads(connection.getresponse().read().decode())
     connection.request('GET', '/v2/players/' + str(player_id) + "/matches", None, headers)
     player_matches = json.loads(connection.getresponse().read().decode())
-    print(player_matches['count'])
     html = html_generator.Generator(player['name'])
     html.add_header(player['name'])
     html.add_header("Birth: " + player['dateOfBirth'], 4)
     html.add_header("Nationality: " + player['nationality'], 4)
     html.add_header("Position: " + player['position'], 4)
     html.add_header("Played matches: " + str(player_matches['count']), 4)
-    html.add_header(str(player_matches), 4)
     return html.get_HTML()
 
-# TODO: this whole function
+# this function doenst work properly because of free API
 def get_competition_info(competition_id):
     connection.request('GET', '/v2/competitions/' + str(competition_id), None, headers)
     competition = json.loads(connection.getresponse().read().decode())
-    html = html_generator.Generator()
+    html = html_generator.Generator("Not valid API")
+    if 'message' in competition.keys():
+        html.add_header(competition['message'], 3)
+        html.add_header("Error code: " + str(competition['errorCode']), 5)
+    else:
+        html.add_header(competition['name'], 1)
+        html.add_header("Start date: " + competition['currentSeason']['startDate'] , 3)
+        html.add_header("End date: " + competition['currentSeason']['endDate'] , 3)
+        html.add_header("Area: " + competition['area']['name'], 3)
+        html.add_header("Match day: " + str(competition['currentSeason']['currentMatchday']), 3)
+
     return html.get_HTML()

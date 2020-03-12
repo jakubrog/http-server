@@ -23,8 +23,7 @@ class ServerHandler(BaseHTTPRequestHandler):
     def handle_main(self):
         self.send_response(200)
         self.end_headers()
-        x = football.get_club_selection("id", "teams")
-        self.wfile.write(x.encode())
+        self.wfile.write(football.get_club_selection("id", "teams").encode())
     
     # handle path /teams and /teams?{id}
     def handle_team_request(self, query):
@@ -33,13 +32,11 @@ class ServerHandler(BaseHTTPRequestHandler):
             team_id = query['id']
             self.send_response(200)
             self.end_headers() 
-            result = football.get_club_info(team_id)
-            self.wfile.write(result.encode())
+            self.wfile.write(football.get_club_info(team_id).encode())
         elif not query:
             self.send_response(200)
             self.end_headers() 
-            x = football.get_club_list()
-            self.wfile.write(x.encode())
+            self.wfile.write(football.get_club_list().encode())
         else:
             self.handle_not_found()
 
@@ -50,8 +47,7 @@ class ServerHandler(BaseHTTPRequestHandler):
             id = query['id']
             self.send_response(200)
             self.end_headers() 
-            # x = football.get_club_list()
-            self.wfile.write(("Looking for competition " + id).encode())
+            self.wfile.write(football.get_competition_info(id).encode())
         else:
             self.handle_not_found()
 
@@ -62,8 +58,7 @@ class ServerHandler(BaseHTTPRequestHandler):
             id = query['id']
             self.send_response(200)
             self.end_headers() 
-            x = football.get_player_info(id)
-            self.wfile.write(x.encode())
+            self.wfile.write(football.get_player_info(id).encode())
         else:
             self.handle_not_found()
     

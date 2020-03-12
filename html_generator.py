@@ -14,7 +14,7 @@ class Generator():
         self.result += '</ul>\n'
 
     def add_header(self, text, number=1):
-        self.result += '<h' + str(number) + '>' + text + '</h' + str(number) + '>'
+        self.result += '<h' + str(number) + '>' + str(text) + '</h' + str(number) + '>'
 
     def get_HTML(self):
         return self.result + "</body>\n</html>"
